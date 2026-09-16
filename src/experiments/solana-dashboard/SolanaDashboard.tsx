@@ -4,6 +4,7 @@ import { ArrowDownLeft, ArrowUpRight, Bell, ChevronDown, MoreHorizontal, PanelLe
 import { useEffect, useRef, useState } from "react";
 import { activities, chartData, navigation } from "./data";
 import SortableNavigation from "./SortableNavigation";
+import HeaderActions from "./HeaderActions";
 
 export default function SolanaDashboard() {
   const [navigationOpen, setNavigationOpen] = useState(true);
@@ -99,12 +100,7 @@ export default function SolanaDashboard() {
                   </button>
                 )}
               </div>
-
-              <IconButton><Bell size={14} /></IconButton>
-
-              <button className="flex h-8 items-center gap-2 rounded-lg border border-white/[0.06] bg-[#121212] px-3 text-[9px] text-zinc-400">
-                7Fks...92mQ <ChevronDown size={11} />
-              </button>
+              <HeaderActions />
             </div>
           </header>
 
@@ -251,9 +247,17 @@ function Trade() {
       </div>
 
       <div className="relative mb-3 grid grid-cols-2 rounded-lg bg-[#090909] p-1">
-        <div className={`absolute bottom-1 top-1 w-[calc(50%-4px)] rounded-md transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)] ${isBuy ? "left-1 bg-orange-400/[0.12]" : "left-[50%] bg-red-400/[0.10]"}`} />
+        <div
+          className={`absolute bottom-1 top-1 w-[calc(50%-4px)] rounded-md transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)] ${isBuy
+            ? "left-1 bg-orange-400/[0.12]"
+            : "left-[50%] bg-emerald-500/[0.10]"
+            }`}
+        />
         <button onClick={() => setSide("buy")} className={`relative z-10 py-1.5 text-[9px] transition ${isBuy ? "text-orange-300" : "text-zinc-600"}`}>Buy</button>
-        <button onClick={() => setSide("sell")} className={`relative z-10 py-1.5 text-[9px] transition ${!isBuy ? "text-red-300" : "text-zinc-600"}`}>Sell</button>
+        <button
+          onClick={() => setSide("sell")}
+          className={`relative z-10 py-1.5 text-[9px] transition ${!isBuy ? "text-emerald-400" : "text-zinc-600"
+            }`}>Sell</button>
       </div>
 
       <div className="mb-2 rounded-lg border border-white/[0.05] bg-[#090909] p-3">
@@ -272,7 +276,12 @@ function Trade() {
         <Row label="Slippage" value="0.1%" />
       </div>
 
-      <button className={`w-full rounded-lg py-2.5 text-[9px] font-semibold text-black transition active:scale-[.98] ${isBuy ? "bg-orange-400 hover:bg-orange-300" : "bg-red-400 hover:bg-red-300"}`}>
+      <button
+        className={`w-full rounded-lg py-2.5 text-[9px] font-semibold text-black transition-colors active:scale-[.98] ${isBuy
+          ? "bg-orange-400 hover:bg-[#e87d03]"
+          : "bg-[#1f8f5f] hover:bg-[#16734c]"
+          }`}
+      >
         {isBuy ? "Buy SOL" : "Sell SOL"}
       </button>
     </div>

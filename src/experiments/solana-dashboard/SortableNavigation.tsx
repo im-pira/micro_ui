@@ -73,8 +73,8 @@ function SortableItem({
             {...attributes}
             {...listeners}
             className={`mb-1 flex w-full cursor-grab items-center justify-between rounded-lg px-2.5 py-2 text-[11px] transition active:cursor-grabbing ${active
-                    ? "bg-[#1d1b19] text-orange-100"
-                    : "text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"
+                ? "bg-[#1d1b19] text-orange-100"
+                : "text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"
                 } ${isDragging ? "z-50 scale-[1.02] border border-orange-400/20 bg-[#201c18] shadow-xl" : ""}`}
         >
             <span className="flex items-center gap-2.5">
