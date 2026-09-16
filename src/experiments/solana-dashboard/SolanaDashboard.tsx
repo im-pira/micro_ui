@@ -1,36 +1,11 @@
 "use client";
 
-import { Activity, ArrowDownLeft, ArrowUpRight, BarChart3, Bell, ChevronDown, Coins, Home, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Pin, RefreshCw, Search, Settings, ShieldCheck, Wallet, X } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Bell, ChevronDown, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Pin, RefreshCw, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-const nav = [
-  { name: "Overview", icon: Home },
-  { name: "Markets", icon: BarChart3 },
-  { name: "Portfolio", icon: Wallet },
-  { name: "Activity", icon: Activity },
-  { name: "Staking", icon: Coins },
-];
-
-const chartData = [
-  ["00:00", 136.2, "82.4M"], ["01:00", 136.7, "91.2M"], ["02:00", 137.8, "74.8M"],
-  ["03:00", 138.5, "88.1M"], ["04:00", 138.1, "93.7M"], ["05:00", 137.6, "71.5M"],
-  ["06:00", 138.8, "84.9M"], ["07:00", 140.2, "102M"], ["08:00", 141.1, "118M"],
-  ["09:00", 140.7, "96M"], ["10:00", 139.6, "89M"], ["11:00", 138.8, "82M"],
-  ["12:00", 139.4, "91M"], ["13:00", 140.6, "109M"], ["14:00", 142, "127M"],
-  ["15:00", 142.6, "131M"], ["16:00", 142.2, "112M"], ["17:00", 141, "95M"],
-  ["18:00", 140.1, "83M"], ["19:00", 141.4, "104M"], ["20:00", 142.3, "116M"],
-  ["21:00", 143, "124M"], ["22:00", 142.7, "101M"], ["Now", 144.2, "138M"],
-] as const;
-
-const activities = [
-  { type: "Buy", asset: "+4.20 SOL", value: "$599.26", time: "18m ago", status: "Completed" },
-  { type: "Swap", asset: "12.4 SOL → USDC", value: "$1,768.92", time: "42m ago", status: "Completed" },
-  { type: "Stake", asset: "32 SOL", value: "$4,565.76", time: "2h ago", status: "Active" },
-  { type: "Reward", asset: "+0.084 SOL", value: "$11.98", time: "5h ago", status: "Claimed" },
-];
+import { activities, chartData, navigation } from "./data";
 
 export default function SolanaDashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [navigationOpen, setNavigationOpen] = useState(true);
   const [active, setActive] = useState("Markets");
   const [range, setRange] = useState("24H");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -38,19 +13,21 @@ export default function SolanaDashboard() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (searchOpen) setTimeout(() => searchRef.current?.focus(), 150);
+    if (!searchOpen) return;
+    const timeout = setTimeout(() => searchRef.current?.focus(), 150);
+    return () => clearTimeout(timeout);
   }, [searchOpen]);
 
   return (
     <main className="flex h-screen overflow-hidden bg-[#090909] text-white">
       <aside className="flex h-screen shrink-0 overflow-hidden bg-[#050505]">
         <div className="flex w-[60px] shrink-0 flex-col items-center border-r border-white/[0.05] py-4">
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="mb-6 flex size-9 items-center justify-center rounded-lg border border-white/[0.06] bg-[#151515] text-zinc-500 transition hover:bg-[#1c1c1c] hover:text-white">
-            {sidebarOpen ? <PanelLeftClose size={15} /> : <PanelLeftOpen size={15} />}
+          <button onClick={() => setNavigationOpen(!navigationOpen)} className="mb-6 flex size-9 items-center justify-center rounded-lg border border-white/[0.06] bg-[#151515] text-zinc-500 transition hover:bg-[#1c1c1c] hover:text-white">
+            {navigationOpen ? <PanelLeftClose size={15} /> : <PanelLeftOpen size={15} />}
           </button>
 
           <div className="flex flex-1 flex-col gap-5">
-            {nav.map(({ name, icon: Icon }) => (
+            {navigation.map(({ name, icon: Icon }) => (
               <button key={name} onClick={() => setActive(name)} className={`relative transition ${active === name ? "text-orange-400" : "text-zinc-600 hover:text-zinc-300"}`}>
                 {active === name && <span className="absolute -left-[22px] top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-r bg-orange-400" />}
                 <Icon size={16} strokeWidth={1.6} />
@@ -63,8 +40,8 @@ export default function SolanaDashboard() {
           </button>
         </div>
 
-        <div className={`h-full overflow-hidden border-r border-white/[0.05] bg-[#080808] transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)] ${sidebarOpen ? "w-[230px]" : "w-0"}`}>
-          <div className={`w-[230px] p-3 transition duration-300 ${sidebarOpen ? "opacity-100" : "-translate-x-3 opacity-0"}`}>
+        <div className={`h-full overflow-hidden border-r border-white/[0.05] bg-[#080808] transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)] ${navigationOpen ? "w-[230px]" : "w-0"}`}>
+          <div className={`w-[230px] p-3 transition duration-300 ${navigationOpen ? "opacity-100" : "-translate-x-3 opacity-0"}`}>
             <div className="mb-6 flex items-center gap-2 px-2">
               <div className="flex size-7 items-center justify-center rounded-lg bg-orange-400 text-[12px] font-bold text-black">S</div>
               <div>
@@ -75,7 +52,7 @@ export default function SolanaDashboard() {
 
             <p className="mb-2 px-2 text-[8px] uppercase tracking-[.18em] text-zinc-700">Workspace</p>
 
-            {nav.map(({ name, icon: Icon }) => (
+            {navigation.map(({ name, icon: Icon }) => (
               <button key={name} onClick={() => setActive(name)} className={`mb-1 flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-[11px] transition ${active === name ? "bg-[#1d1b19] text-orange-100" : "text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"}`}>
                 <span className="flex items-center gap-2.5"><Icon size={14} />{name}</span>
                 {active === name && <MoreHorizontal size={13} />}
@@ -111,7 +88,7 @@ export default function SolanaDashboard() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search markets..."
-                  className={`min-w-0 flex-1 bg-transparent text-[9px] text-zinc-300 outline-none placeholder:text-zinc-700 transition-opacity duration-200 ${searchOpen ? "opacity-100" : "opacity-0"}`}
+                  className={`min-w-0 flex-1 bg-transparent text-[9px] text-zinc-300 outline-none placeholder:text-zinc-700 transition-opacity duration-200 ${searchOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
                 />
 
                 {searchOpen && (
@@ -151,9 +128,9 @@ export default function SolanaDashboard() {
                   </div>
 
                   <div className="flex rounded-lg border border-white/[0.05] bg-[#090909] p-0.5">
-                    {["1H", "24H", "7D", "30D", "1Y"].map(x => (
-                      <button key={x} onClick={() => setRange(x)} className={`rounded-md px-2.5 py-1 text-[8px] transition ${range === x ? "bg-orange-400/10 text-orange-300" : "text-zinc-600 hover:text-zinc-300"}`}>
-                        {x}
+                    {["1H", "24H", "7D", "30D", "1Y"].map((item) => (
+                      <button key={item} onClick={() => setRange(item)} className={`rounded-md px-2.5 py-1 text-[8px] transition ${range === item ? "bg-orange-400/10 text-orange-300" : "text-zinc-600 hover:text-zinc-300"}`}>
+                        {item}
                       </button>
                     ))}
                   </div>
@@ -175,7 +152,6 @@ export default function SolanaDashboard() {
             <div className="space-y-3">
               <Portfolio />
               <Trade />
-              <Network />
             </div>
           </div>
         </div>
@@ -188,25 +164,27 @@ function PriceChart() {
   const [hover, setHover] = useState<number | null>(null);
 
   const W = 800, H = 245, px = 16, top = 15, bottom = 28;
-  const values = chartData.map(x => x[1]);
+  const values = chartData.map((x) => x[1]);
   const min = Math.min(...values) - 1;
   const max = Math.max(...values) + 1;
 
-  const points = chartData.map((d, i) => ({
+  const points = chartData.map((item, i) => ({
     x: px + (i / (chartData.length - 1)) * (W - px * 2),
-    y: top + ((max - d[1]) / (max - min)) * (H - top - bottom),
-    time: d[0], price: d[1], volume: d[2],
+    y: top + ((max - item[1]) / (max - min)) * (H - top - bottom),
+    time: item[0],
+    price: item[1],
+    volume: item[2],
   }));
 
-  const line = points.map(p => `${p.x},${p.y}`).join(" ");
+  const line = points.map((p) => `${p.x},${p.y}`).join(" ");
   const area = `${px},${H - bottom} ${line} ${W - px},${H - bottom}`;
-  const p = hover !== null ? points[hover] : null;
+  const point = hover !== null ? points[hover] : null;
 
   function handleMove(e: React.MouseEvent<SVGSVGElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * W;
-    const i = Math.round(((x - px) / (W - px * 2)) * (points.length - 1));
-    setHover(Math.max(0, Math.min(points.length - 1, i)));
+    const index = Math.round(((x - px) / (W - px * 2)) * (points.length - 1));
+    setHover(Math.max(0, Math.min(points.length - 1, index)));
   }
 
   return (
@@ -219,31 +197,33 @@ function PriceChart() {
           </linearGradient>
         </defs>
 
-        {[45, 95, 145, 195].map(y => <line key={y} x1="16" x2="784" y1={y} y2={y} stroke="rgba(255,255,255,.035)" />)}
+        {[45, 95, 145, 195].map((y) => (
+          <line key={y} x1="16" x2="784" y1={y} y2={y} stroke="rgba(255,255,255,.035)" />
+        ))}
 
         <polygon points={area} fill="url(#orangeFill)" />
         <polyline points={line} fill="none" stroke="#f97316" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round" />
 
-        {p && (
+        {point && (
           <>
-            <line x1={p.x} x2={p.x} y1="15" y2="217" stroke="rgba(255,255,255,.14)" strokeDasharray="3 4" />
-            <line x1="16" x2="784" y1={p.y} y2={p.y} stroke="rgba(255,255,255,.07)" strokeDasharray="3 4" />
-            <circle cx={p.x} cy={p.y} r="4" fill="#f97316" stroke="#101010" strokeWidth="2.5" />
+            <line x1={point.x} x2={point.x} y1="15" y2="217" stroke="rgba(255,255,255,.14)" strokeDasharray="3 4" />
+            <line x1="16" x2="784" y1={point.y} y2={point.y} stroke="rgba(255,255,255,.07)" strokeDasharray="3 4" />
+            <circle cx={point.x} cy={point.y} r="4" fill="#f97316" stroke="#101010" strokeWidth="2.5" />
           </>
         )}
 
-        {["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "Now"].map((x, i) => (
-          <text key={x} x={18 + i * 127} y="238" fontSize="7" fill="#3f3f46">{x}</text>
+        {["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "Now"].map((label, i) => (
+          <text key={label} x={18 + i * 127} y="238" fontSize="7" fill="#3f3f46">{label}</text>
         ))}
       </svg>
 
-      {p && (
-        <div className="pointer-events-none absolute top-4 z-10 min-w-[120px] rounded-lg border border-white/[0.08] bg-[#171513]/95 p-2.5 shadow-2xl backdrop-blur" style={{ left: `clamp(8px, calc(${(p.x / W) * 100}% - 60px), calc(100% - 128px))` }}>
-          <p className="text-[8px] text-zinc-500">{p.time}</p>
-          <p className="mt-1 text-[13px] font-semibold">${p.price.toFixed(2)}</p>
+      {point && (
+        <div className="pointer-events-none absolute top-4 z-10 min-w-[120px] rounded-lg border border-white/[0.08] bg-[#171513]/95 p-2.5 shadow-2xl backdrop-blur" style={{ left: `clamp(8px, calc(${(point.x / W) * 100}% - 60px), calc(100% - 128px))` }}>
+          <p className="text-[8px] text-zinc-500">{point.time}</p>
+          <p className="mt-1 text-[13px] font-semibold">${point.price.toFixed(2)}</p>
           <div className="mt-1.5 flex justify-between gap-4 text-[7px]">
             <span className="text-zinc-600">Volume</span>
-            <span className="text-orange-300">{p.volume}</span>
+            <span className="text-orange-300">{point.volume}</span>
           </div>
         </div>
       )}
@@ -256,7 +236,10 @@ function Trade() {
   const [amount, setAmount] = useState("1000");
 
   const isBuy = side === "buy";
-  const sol = amount ? (Number(amount) / 144.2).toFixed(3) : "0.000";
+  const solPrice = 144.2;
+  const result = isBuy
+    ? `${amount ? (Number(amount) / solPrice).toFixed(3) : "0.000"} SOL`
+    : `$${(Number(amount || 0) * solPrice).toFixed(2)}`;
 
   return (
     <div className="rounded-xl border border-white/[0.055] bg-[#101010] p-4">
@@ -267,7 +250,6 @@ function Trade() {
 
       <div className="relative mb-3 grid grid-cols-2 rounded-lg bg-[#090909] p-1">
         <div className={`absolute bottom-1 top-1 w-[calc(50%-4px)] rounded-md transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)] ${isBuy ? "left-1 bg-orange-400/[0.12]" : "left-[50%] bg-red-400/[0.10]"}`} />
-
         <button onClick={() => setSide("buy")} className={`relative z-10 py-1.5 text-[9px] transition ${isBuy ? "text-orange-300" : "text-zinc-600"}`}>Buy</button>
         <button onClick={() => setSide("sell")} className={`relative z-10 py-1.5 text-[9px] transition ${!isBuy ? "text-red-300" : "text-zinc-600"}`}>Sell</button>
       </div>
@@ -275,20 +257,12 @@ function Trade() {
       <div className="mb-2 rounded-lg border border-white/[0.05] bg-[#090909] p-3">
         <p className="text-[7px] text-zinc-600">{isBuy ? "You pay" : "You sell"}</p>
         <div className="mt-1 flex items-center justify-between">
-          <input
-            value={amount}
-            onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ""))}
-            className="w-full bg-transparent text-[14px] outline-none"
-          />
+          <input value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ""))} className="w-full bg-transparent text-[14px] outline-none" />
           <span className="rounded-md bg-white/[0.05] px-2 py-1 text-[7px] text-zinc-500">{isBuy ? "USD" : "SOL"}</span>
         </div>
       </div>
 
-      <TradeInput
-        label="You receive"
-        value={isBuy ? `${sol} SOL` : `$${(Number(amount || 0) * 144.2).toFixed(2)}`}
-        token={isBuy ? "SOL" : "USD"}
-      />
+      <TradeInput label="You receive" value={result} token={isBuy ? "SOL" : "USD"} />
 
       <div className="my-3 text-[8px]">
         <Row label="SOL price" value="$144.20" />
@@ -307,7 +281,7 @@ function RecentActivity() {
   const [filter, setFilter] = useState("All");
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const filtered = filter === "All" ? activities : activities.filter(x => x.type === filter);
+  const filtered = filter === "All" ? activities : activities.filter((item) => item.type === filter);
 
   return (
     <div className="mt-3 rounded-xl border border-white/[0.055] bg-[#101010] p-4">
@@ -318,38 +292,38 @@ function RecentActivity() {
         </div>
 
         <div className="flex rounded-lg bg-[#090909] p-1">
-          {["All", "Buy", "Swap", "Stake"].map(x => (
-            <button key={x} onClick={() => setFilter(x)} className={`rounded-md px-2 py-1 text-[8px] transition ${filter === x ? "bg-white/[0.07] text-zinc-200" : "text-zinc-600 hover:text-zinc-300"}`}>
-              {x}
+          {["All", "Buy", "Swap", "Stake"].map((item) => (
+            <button key={item} onClick={() => setFilter(item)} className={`rounded-md px-2 py-1 text-[8px] transition ${filter === item ? "bg-white/[0.07] text-zinc-200" : "text-zinc-600 hover:text-zinc-300"}`}>
+              {item}
             </button>
           ))}
         </div>
       </div>
 
       <div className="space-y-1">
-        {filtered.map(x => {
-          const open = expanded === x.type;
+        {filtered.map((item) => {
+          const open = expanded === item.type;
 
           return (
-            <div key={x.type} className="overflow-hidden rounded-lg transition hover:bg-white/[0.025]">
-              <button onClick={() => setExpanded(open ? null : x.type)} className="grid w-full grid-cols-[32px_1fr_120px_80px] items-center px-1 py-2.5 text-left">
+            <div key={item.type} className="overflow-hidden rounded-lg transition hover:bg-white/[0.025]">
+              <button onClick={() => setExpanded(open ? null : item.type)} className="grid w-full grid-cols-[32px_1fr_120px_80px] items-center px-1 py-2.5 text-left">
                 <div className="flex size-7 items-center justify-center rounded-lg bg-orange-400/[0.07] text-orange-400">
-                  {x.type === "Swap" ? <RefreshCw size={12} /> : <ArrowDownLeft size={12} />}
+                  {item.type === "Swap" ? <RefreshCw size={12} /> : <ArrowDownLeft size={12} />}
                 </div>
 
                 <div>
-                  <p className="text-[10px] text-zinc-300">{x.type}</p>
-                  <p className="text-[8px] text-zinc-600">{x.asset}</p>
+                  <p className="text-[10px] text-zinc-300">{item.type}</p>
+                  <p className="text-[8px] text-zinc-600">{item.asset}</p>
                 </div>
 
-                <span className="text-[9px] text-zinc-400">{x.value}</span>
-                <span className="text-right text-[8px] text-zinc-700">{x.time}</span>
+                <span className="text-[9px] text-zinc-400">{item.value}</span>
+                <span className="text-right text-[8px] text-zinc-700">{item.time}</span>
               </button>
 
               <div className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                 <div className="overflow-hidden">
                   <div className="mx-9 mb-2 grid grid-cols-3 rounded-lg border border-white/[0.04] bg-[#0b0b0b] px-3 py-2.5 text-[8px]">
-                    <div><p className="text-zinc-700">Status</p><p className="mt-1 text-emerald-400">{x.status}</p></div>
+                    <div><p className="text-zinc-700">Status</p><p className="mt-1 text-emerald-400">{item.status}</p></div>
                     <div><p className="text-zinc-700">Network</p><p className="mt-1 text-zinc-400">Solana</p></div>
                     <div><p className="text-zinc-700">Fee</p><p className="mt-1 text-zinc-400">$0.0021</p></div>
                   </div>
@@ -379,27 +353,6 @@ function Portfolio() {
       <Holding name="SOL" amount="90.01" value="$12,840" color="bg-orange-400" />
       <Holding name="USDC" amount="4,210" value="$4,210" color="bg-orange-200/70" />
       <Holding name="JUP" amount="1,593" value="$1,370" color="bg-zinc-500" />
-    </div>
-  );
-}
-
-function Network() {
-  return (
-    <div className="rounded-xl border border-white/[0.055] bg-[#101010] p-4">
-      <div className="mb-3 flex justify-between">
-        <p className="text-[11px] font-medium">Network</p>
-        <ShieldCheck size={13} className="text-orange-400" />
-      </div>
-
-      <Row label="Status" value="Operational" />
-      <Row label="TPS" value="3,842" />
-      <Row label="Epoch" value="843" />
-      <Row label="Avg. fee" value="$0.0021" />
-      <Row label="Stake APY" value="6.74%" />
-
-      <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-white/[0.05] py-2 text-[8px] text-zinc-600 hover:text-zinc-300">
-        <Settings size={10} /> Network details
-      </button>
     </div>
   );
 }

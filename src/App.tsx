@@ -20,7 +20,8 @@ import CameraLens from "./experiments/camera-lens/CameraLens";
 import FeatureCard from "./experiments/feature-card/FeatureCard";
 import DeleteButton from "./experiments/delete-button/DeleteButton";
 import MatrixOrb from "./experiments/matrix-orb/MatrixOrb";
-import SidebarPanel from "./experiments/sidebar-panel/SidebarPanel";
+import SidebarPanel from "./experiments/solana-dashboard/SolanaDashboard";
+import SolanaDashboard from "./experiments/solana-dashboard/SolanaDashboard";
 
 function App() {
   return (
@@ -107,9 +108,13 @@ function App() {
           path="/experiments/matrix-orb"
           element={<MatrixOrb />}
         />
-        <Route
+        {/* <Route
           path="/experiments/sidebar-panel"
           element={<SidebarPanel />}
+        /> */}
+        <Route
+          path="/experiments/solana-dashboard"
+          element={<SolanaDashboard />}
         />
       </Routes>
     </BrowserRouter>

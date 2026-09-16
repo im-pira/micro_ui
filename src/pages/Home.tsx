@@ -21,7 +21,7 @@ const experiments = [
   ["18", "Feature card", "/experiments/feature-card"],
   ["19", "Delete button", "/experiments/delete-button"],
   ["20", "Matrix Orb", "/experiments/matrix-orb"],
-  ["21", "Sidebar Panel", "/experiments/sidebar-panel"],
+  ["21", "Solana dashBoard", "/experiments/solana-dashboard"],
 ];
 
 export default function Home() {
