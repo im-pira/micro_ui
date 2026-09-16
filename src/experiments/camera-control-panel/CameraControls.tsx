@@ -125,7 +125,7 @@ export function ModeControl({
         >
             <div className="absolute left-1/2 top-1/2 size-[34px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f04a32] shadow-[0_4px_14px_rgba(240,74,50,0.3)]" />
 
-            {items.map((item, i) => {
+            {items.map((item) => {
                 const focused = shifting
                     ? item.role === "next"
                     : item.role === "current";
