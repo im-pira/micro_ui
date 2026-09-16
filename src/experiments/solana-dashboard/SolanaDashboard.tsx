@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight, Bell, ChevronDown, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Pin, RefreshCw, Search, X } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, PanelLeftClose, PanelLeftOpen, Pin, RefreshCw, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { activities, chartData, navigation } from "./data";
 import SortableNavigation from "./SortableNavigation";
@@ -406,8 +406,4 @@ function TradeInput({ label, value, token }: any) {
 
 function Row({ label, value }: any) {
   return <div className="flex justify-between border-b border-white/[0.035] py-2 last:border-0"><span className="text-zinc-700">{label}</span><span className="text-zinc-400">{value}</span></div>;
-}
-
-function IconButton({ children }: any) {
-  return <button className="flex size-8 items-center justify-center rounded-lg border border-white/[0.05] bg-[#121212] text-zinc-600 transition hover:bg-[#181818] hover:text-zinc-300">{children}</button>;
 }
