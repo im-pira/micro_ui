@@ -3,9 +3,11 @@
 import { ArrowDownLeft, ArrowUpRight, Bell, ChevronDown, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Pin, RefreshCw, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { activities, chartData, navigation } from "./data";
+import SortableNavigation from "./SortableNavigation";
 
 export default function SolanaDashboard() {
   const [navigationOpen, setNavigationOpen] = useState(true);
+  const [navigationItems, setNavigationItems] = useState(navigation);
   const [active, setActive] = useState("Markets");
   const [range, setRange] = useState("24H");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -27,7 +29,7 @@ export default function SolanaDashboard() {
           </button>
 
           <div className="flex flex-1 flex-col gap-5">
-            {navigation.map(({ name, icon: Icon }) => (
+            {navigationItems.map(({ name, icon: Icon }) => (
               <button key={name} onClick={() => setActive(name)} className={`relative transition ${active === name ? "text-orange-400" : "text-zinc-600 hover:text-zinc-300"}`}>
                 {active === name && <span className="absolute -left-[22px] top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-r bg-orange-400" />}
                 <Icon size={16} strokeWidth={1.6} />
@@ -52,12 +54,12 @@ export default function SolanaDashboard() {
 
             <p className="mb-2 px-2 text-[8px] uppercase tracking-[.18em] text-zinc-700">Workspace</p>
 
-            {navigation.map(({ name, icon: Icon }) => (
-              <button key={name} onClick={() => setActive(name)} className={`mb-1 flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-[11px] transition ${active === name ? "bg-[#1d1b19] text-orange-100" : "text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"}`}>
-                <span className="flex items-center gap-2.5"><Icon size={14} />{name}</span>
-                {active === name && <MoreHorizontal size={13} />}
-              </button>
-            ))}
+            <SortableNavigation
+              items={navigationItems}
+              active={active}
+              onChange={setActive}
+              onReorder={setNavigationItems}
+            />
 
             <div className="mt-6 border-t border-white/[0.05] pt-4">
               <p className="mb-2 px-2 text-[8px] uppercase tracking-[.18em] text-zinc-700">Watchlist</p>
