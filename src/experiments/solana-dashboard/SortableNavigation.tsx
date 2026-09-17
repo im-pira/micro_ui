@@ -5,22 +5,9 @@ import { SortableContext, arrayMove, verticalListSortingStrategy, useSortable } 
 import { CSS } from "@dnd-kit/utilities";
 import { type LucideIcon, MoreHorizontal } from "lucide-react";
 
-type Item = {
-    name: string;
-    icon: LucideIcon;
-};
+type Item = { name: string; icon: LucideIcon; };
 
-export default function SortableNavigation({
-    items,
-    active,
-    onChange,
-    onReorder,
-}: {
-    items: Item[];
-    active: string;
-    onChange: (name: string) => void;
-    onReorder: (items: Item[]) => void;
-}) {
+export default function SortableNavigation({ items, active, onChange, onReorder, }: { items: Item[]; active: string; onChange: (name: string) => void; onReorder: (items: Item[]) => void; }) {
     const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
     return (
@@ -29,13 +16,10 @@ export default function SortableNavigation({
             collisionDetection={closestCenter}
             onDragEnd={({ active: dragged, over }) => {
                 if (!over || dragged.id === over.id) return;
-
                 const oldIndex = items.findIndex((x) => x.name === dragged.id);
                 const newIndex = items.findIndex((x) => x.name === over.id);
-
                 onReorder(arrayMove(items, oldIndex, newIndex));
-            }}
-        >
+            }}>
             <SortableContext items={items.map((x) => x.name)} strategy={verticalListSortingStrategy}>
                 {items.map((item) => (
                     <SortableItem
@@ -50,21 +34,9 @@ export default function SortableNavigation({
     );
 }
 
-function SortableItem({
-    item,
-    active,
-    onClick,
-}: {
-    item: Item;
-    active: boolean;
-    onClick: () => void;
-}) {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-        id: item.name,
-    });
-
+function SortableItem({ item, active, onClick, }: { item: Item; active: boolean; onClick: () => void; }) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: item.name,});
     const Icon = item.icon;
-
     return (
         <button
             ref={setNodeRef}
