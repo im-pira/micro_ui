@@ -22,6 +22,7 @@ const experiments = [
   ["19", "Delete button", "/experiments/delete-button"],
   ["20", "Matrix Orb", "/experiments/matrix-orb"],
   ["21", "Solana dashBoard", "/experiments/solana-dashboard"],
+  ["22", "Toggle Butoon", "/experiments/toggle-button"],
 ];
 
 export default function Home() {

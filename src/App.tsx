@@ -21,6 +21,7 @@ import FeatureCard from "./experiments/feature-card/FeatureCard";
 import DeleteButton from "./experiments/delete-button/DeleteButton";
 import MatrixOrb from "./experiments/matrix-orb/MatrixOrb";
 import SolanaDashboard from "./experiments/solana-dashboard/SolanaDashboard";
+import ToggleButton from "./experiments/toggle-button/ToggleButton";
 
 function App() {
   return (
@@ -107,13 +108,13 @@ function App() {
           path="/experiments/matrix-orb"
           element={<MatrixOrb />}
         />
-        {/* <Route
-          path="/experiments/sidebar-panel"
-          element={<SidebarPanel />}
-        /> */}
         <Route
           path="/experiments/solana-dashboard"
           element={<SolanaDashboard />}
+        />
+        <Route
+          path="/experiments/toggle-button"
+          element={<ToggleButton />}
         />
       </Routes>
     </BrowserRouter>
