@@ -112,10 +112,6 @@ function App() {
           path="/experiments/solana-dashboard"
           element={<SolanaDashboard />}
         />
-        <Route
-          path="/experiments/toggle-button"
-          element={<ToggleButton />}
-        />
       </Routes>
     </BrowserRouter>
   );
