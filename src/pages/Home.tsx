@@ -22,7 +22,8 @@ const experiments = [
   ["19", "Delete button", "/experiments/delete-button"],
   ["20", "Matrix Orb", "/experiments/matrix-orb"],
   ["21", "Solana dashBoard", "/experiments/solana-dashboard"],
-  ["22", "NFT Card", "/experiments/NFT-card"]
+  ["22", "NFT Card", "/experiments/NFT-card"],
+  ["23", "Switch button", "/experiments/switch-button"],
 ];
 
 export default function Home() {

@@ -22,6 +22,7 @@ import DeleteButton from "./experiments/delete-button/DeleteButton";
 import MatrixOrb from "./experiments/matrix-orb/MatrixOrb";
 import SolanaDashboard from "./experiments/solana-dashboard/SolanaDashboard";
 import NFTCard from "./experiments/NFT-card/NFTCard";
+import SwitchButton from "./experiments/switch-button/SwitchButton";
 
 function App() {
   return (
@@ -115,6 +116,10 @@ function App() {
         <Route
           path="/experiments/NFT-card"
           element={<NFTCard />}
+        />
+        <Route
+          path="/experiments/switch-button"
+          element={<SwitchButton />}
         />
       </Routes>
     </BrowserRouter>
