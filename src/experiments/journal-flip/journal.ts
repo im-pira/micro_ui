@@ -1,11 +1,13 @@
-export const pages = [
+export const images = [
   "/journal/01.png",
-  "/journal/02.jpg",
-  "/journal/03.jpg",
-  "/journal/04.jpg",
-  "/journal/05.jpg",
-  "/journal/06.jpg",
-];
+  "/journal/02.png",
+  "/journal/03.png",
+  "/journal/04.png",
+  "/journal/05.png",
+  "/journal/06.png",
+] as const;
 
-export const W = 3.6;
-export const H = 4.6;
+export const PAGE_W = 1.55;
+export const PAGE_H = 2.05;
+export const SEGMENTS = 32;
+export const LAST_PAGE = images.length - 1;

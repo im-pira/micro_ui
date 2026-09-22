@@ -1,120 +1,125 @@
-import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
-import { pages, W, H } from "./journal";
+import { PAGE_H, PAGE_W, SEGMENTS } from "./journal";
 
 type Props = {
-  index: number;
-  page: number;
-  setPage: (n: number) => void;
+  front: THREE.Texture;
+  back: THREE.Texture;
+  direction: 1 | -1;
+  onComplete: () => void;
 };
 
-export function JournalPage({ index, page, setPage }: Props) {
-  const ref = useRef<THREE.Mesh>(null);
-  const progress = useRef(index < page ? 1 : 0);
+export default function JournalPage({
+  front,
+  back,
+  direction,
+  onComplete,
+}: Props) {
+  const progress = useRef(direction === 1 ? 0 : 1);
+  const done = useRef(false);
 
-  const geometry = useMemo(() => {
-    const g = new THREE.PlaneGeometry(W, H, 36, 2);
-    g.translate(W / 2, 0, 0);
-
-    g.setAttribute(
-      "base",
-      new THREE.BufferAttribute(
-        new Float32Array(g.attributes.position.array),
-        3,
-      ),
-    );
-
+  const frontGeo = useMemo(() => {
+    const g = new THREE.PlaneGeometry(PAGE_W, PAGE_H, SEGMENTS, 8);
+    g.translate(PAGE_W / 2, 0, 0);
     return g;
   }, []);
 
-  useFrame((_, dt) => {
-    if (!ref.current) return;
+  const backGeo = useMemo(() => frontGeo.clone(), [frontGeo]);
+
+  const original = useMemo(() => {
+    const p = frontGeo.attributes.position;
+    return Array.from({ length: p.count }, (_, i) => ({
+      x: p.getX(i),
+      y: p.getY(i),
+    }));
+  }, [frontGeo]);
+
+  useFrame((_, delta) => {
+    const target = direction === 1 ? 1 : 0;
 
     progress.current = THREE.MathUtils.damp(
       progress.current,
-      index < page ? 1 : 0,
-      7,
-      dt,
+      target,
+      6.5,
+      delta,
     );
 
     const p = progress.current;
-    const bend = Math.sin(p * Math.PI);
+    const turn = p * Math.PI;
 
-    const pos = geometry.attributes.position as THREE.BufferAttribute;
-    const base = geometry.getAttribute("base") as THREE.BufferAttribute;
+    const update = (geo: THREE.BufferGeometry, depth: number) => {
+      const pos = geo.attributes.position;
 
-    for (let i = 0; i < pos.count; i++) {
-      const x = base.getX(i);
-      const y = base.getY(i);
-      const t = x / W;
+      for (let i = 0; i < pos.count; i++) {
+        const ox = original[i].x;
+        const oy = original[i].y;
+        const t = THREE.MathUtils.clamp(ox / PAGE_W, 0, 1);
 
-      pos.setXYZ(
-        i,
-        x,
-        y,
-        Math.sin(t * Math.PI) * bend * 0.48 +
-          Math.sin(t * Math.PI * 0.5) * bend * t * 0.16,
-      );
+        const middle = Math.sin(Math.PI * p);
+        const edge = Math.sin(Math.PI * t);
+
+        const curl = middle * edge;
+
+        const bend =
+          turn +
+          curl * 0.34 -
+          middle * Math.pow(t, 1.7) * 0.18;
+
+        const x =
+          PAGE_W *
+          t *
+          Math.cos(bend);
+
+        const z =
+          -PAGE_W *
+            t *
+            Math.sin(bend) +
+          curl * 0.22 +
+          depth;
+
+        const y =
+          oy +
+          curl *
+            Math.sin((oy / PAGE_H + 0.5) * Math.PI) *
+            0.018;
+
+        pos.setXYZ(i, x, y, z);
+      }
+
+      pos.needsUpdate = true;
+      geo.computeVertexNormals();
+    };
+
+    update(frontGeo, 0.003);
+    update(backGeo, -0.003);
+
+    if (
+      !done.current &&
+      Math.abs(progress.current - target) < 0.002
+    ) {
+      done.current = true;
+      onComplete();
     }
-
-    pos.needsUpdate = true;
-
-    ref.current.rotation.y = -p * Math.PI;
-
-    // Correct stacking on each side.
-    ref.current.position.z =
-      index < page
-        ? -(index + 1) * 0.006
-        : (pagesCount - index) * 0.006;
-
-    ref.current.position.z += bend * 0.12;
   });
 
-  /*
-   * Only TWO sheets may be clicked:
-   *
-   * page     = exposed sheet on right → forward
-   * page - 1 = exposed sheet on left  → backward
-   */
-  const canGoForward = index === page && page < pagesCount;
-  const canGoBack = index === page - 1 && page > 0;
-  const clickable = canGoForward || canGoBack;
-
   return (
-    <mesh
-      ref={ref}
-      geometry={geometry}
-      castShadow
-      receiveShadow
-      onClick={
-        clickable
-          ? (e) => {
-              e.stopPropagation();
+    <group position={[0, 0, 0.035]}>
+      <mesh geometry={frontGeo} castShadow>
+        <meshStandardMaterial
+          map={front}
+          side={THREE.FrontSide}
+          roughness={0.92}
+        />
+      </mesh>
 
-              if (canGoForward) setPage(page + 1);
-              else setPage(page - 1);
-            }
-          : undefined
-      }
-      onPointerEnter={
-        clickable
-          ? () => {
-              document.body.style.cursor = "pointer";
-            }
-          : undefined
-      }
-      onPointerLeave={() => {
-        document.body.style.cursor = "";
-      }}
-    >
-      <meshStandardMaterial
-        color={index % 2 ? "#F3EBDD" : "#FBF6EC"}
-        side={THREE.DoubleSide}
-        roughness={0.95}
-      />
-    </mesh>
+      <mesh geometry={backGeo} castShadow>
+        <meshStandardMaterial
+          map={back}
+          side={THREE.BackSide}
+          roughness={0.92}
+        />
+      </mesh>
+    </group>
   );
 }
-
-const pagesCount = pages.length;
