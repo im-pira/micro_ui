@@ -23,6 +23,7 @@ import MatrixOrb from "./experiments/matrix-orb/MatrixOrb";
 import SolanaDashboard from "./experiments/solana-dashboard/SolanaDashboard";
 import NFTCard from "./experiments/NFT-card/NFTCard";
 import SwitchButton from "./experiments/switch-button/SwitchButton";
+import JournalFlip from "./experiments/journal-flip/JournalFlip";
 
 function App() {
   return (
@@ -120,6 +121,10 @@ function App() {
         <Route
           path="/experiments/switch-button"
           element={<SwitchButton />}
+        />
+        <Route
+          path="/experiments/journal-flip"
+          element={<JournalFlip />}
         />
       </Routes>
     </BrowserRouter>

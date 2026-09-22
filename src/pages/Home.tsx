@@ -24,6 +24,7 @@ const experiments = [
   ["21", "Solana dashBoard", "/experiments/solana-dashboard"],
   ["22", "NFT Card", "/experiments/NFT-card"],
   ["23", "Switch button", "/experiments/switch-button"],
+  ["24", "Journal Flip", "/experiments/journal-flip"],
 ];
 
 export default function Home() {
