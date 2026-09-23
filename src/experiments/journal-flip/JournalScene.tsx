@@ -14,26 +14,26 @@ function makeTexture(
   source: THREE.Texture,
   side: "full" | "left" | "right",
 ) {
-  const t = source.clone();
+  const texture = source.clone();
 
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = THREE.ClampToEdgeWrapping;
-  t.wrapT = THREE.ClampToEdgeWrapping;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
 
   if (side === "left") {
-    t.repeat.set(0.5, 1);
-    t.offset.set(0, 0);
+    texture.repeat.set(0.5, 1);
+    texture.offset.set(0, 0);
   } else if (side === "right") {
-    t.repeat.set(0.5, 1);
-    t.offset.set(0.5, 0);
+    texture.repeat.set(0.5, 1);
+    texture.offset.set(0.5, 0);
   } else {
-    t.repeat.set(1, 1);
-    t.offset.set(0, 0);
+    texture.repeat.set(1, 1);
+    texture.offset.set(0, 0);
   }
 
-  t.needsUpdate = true;
+  texture.needsUpdate = true;
 
-  return t;
+  return texture;
 }
 
 export default function JournalScene({
@@ -43,29 +43,40 @@ export default function JournalScene({
 }: Props) {
   const source = useTexture([...images]);
 
-  const tex = useMemo(
+  const textures = useMemo(
     () =>
-      source.map((t) => ({
-        full: makeTexture(t, "full"),
-        left: makeTexture(t, "left"),
-        right: makeTexture(t, "right"),
+      source.map((texture) => ({
+        full: makeTexture(texture, "full"),
+        left: makeTexture(texture, "left"),
+        right: makeTexture(texture, "right"),
       })),
     [source],
   );
 
-  const left = (i: number) => {
-    if (i === 0) return null;
-    if (i === LAST_PAGE) return tex[i].full;
-    return tex[i].left;
+  const getLeft = (index: number) => {
+    if (index === 0) return null;
+
+    if (index === LAST_PAGE) {
+      return textures[index].full;
+    }
+
+    return textures[index].left;
   };
 
-  const right = (i: number) => {
-    if (i === 0) return tex[i].full;
-    if (i === LAST_PAGE) return null;
-    return tex[i].right;
+  const getRight = (index: number) => {
+    if (index === 0) {
+      return textures[index].full;
+    }
+
+    if (index === LAST_PAGE) {
+      return null;
+    }
+
+    return textures[index].right;
   };
 
   const moving = target !== null;
+
   const direction: 1 | -1 =
     moving && target < page ? -1 : 1;
 
@@ -79,11 +90,25 @@ export default function JournalScene({
       ? Math.max(page, target)
       : page;
 
-  const visibleLeft = moving ? left(low) : left(page);
-  const visibleRight = moving ? right(high) : right(page);
+  const visibleLeft = moving
+    ? getLeft(low)
+    : getLeft(page);
 
-  const sheetFront = moving ? right(low) : null;
-  const sheetBack = moving ? left(high) : null;
+  const visibleRight = moving
+    ? getRight(high)
+    : getRight(page);
+
+  const sheetFront = moving
+    ? getRight(low)
+    : null;
+
+  const sheetBack = moving
+    ? getLeft(high)
+    : null;
+
+  const showSpine =
+    moving ||
+    (page !== 0 && page !== LAST_PAGE);
 
   return (
     <>
@@ -101,60 +126,88 @@ export default function JournalScene({
       />
 
       <group rotation={[-0.025, 0, 0]}>
-        <mesh position={[-PAGE_W / 2, 0, -0.045]} receiveShadow>
-          <planeGeometry args={[PAGE_W, PAGE_H]} />
-          <meshStandardMaterial
-            color="#eee8dd"
-            roughness={1}
-          />
-        </mesh>
-
-        <mesh position={[PAGE_W / 2, 0, -0.045]} receiveShadow>
-          <planeGeometry args={[PAGE_W, PAGE_H]} />
-          <meshStandardMaterial
-            color="#eee8dd"
-            roughness={1}
-          />
-        </mesh>
-
         {visibleLeft && (
-          <mesh position={[-PAGE_W / 2, 0, -0.015]} receiveShadow>
-            <planeGeometry args={[PAGE_W, PAGE_H]} />
+          <mesh
+            position={[
+              -PAGE_W / 2,
+              0,
+              -0.015,
+            ]}
+            receiveShadow
+          >
+            <planeGeometry
+              args={[
+                PAGE_W,
+                PAGE_H,
+              ]}
+            />
+
             <meshStandardMaterial
               map={visibleLeft}
               roughness={0.94}
+              side={THREE.FrontSide}
             />
           </mesh>
         )}
 
         {visibleRight && (
-          <mesh position={[PAGE_W / 2, 0, -0.015]} receiveShadow>
-            <planeGeometry args={[PAGE_W, PAGE_H]} />
+          <mesh
+            position={[
+              PAGE_W / 2,
+              0,
+              -0.015,
+            ]}
+            receiveShadow
+          >
+            <planeGeometry
+              args={[
+                PAGE_W,
+                PAGE_H,
+              ]}
+            />
+
             <meshStandardMaterial
               map={visibleRight}
               roughness={0.94}
+              side={THREE.FrontSide}
             />
           </mesh>
         )}
 
-        {moving && sheetFront && sheetBack && (
-          <JournalPage
-            key={`${page}-${target}`}
-            front={sheetFront}
-            back={sheetBack}
-            direction={direction}
-            onComplete={onComplete}
-          />
-        )}
+        {moving &&
+          sheetFront &&
+          sheetBack && (
+            <JournalPage
+              key={`${page}-${target}`}
+              front={sheetFront}
+              back={sheetBack}
+              direction={direction}
+              onComplete={onComplete}
+            />
+          )}
 
-        <mesh position={[0, 0, 0.045]}>
-          <planeGeometry args={[0.012, PAGE_H]} />
-          <meshBasicMaterial
-            color="#4b4035"
-            transparent
-            opacity={0.2}
-          />
-        </mesh>
+        {showSpine && (
+          <mesh
+            position={[
+              0,
+              0,
+              0.045,
+            ]}
+          >
+            <planeGeometry
+              args={[
+                0.012,
+                PAGE_H,
+              ]}
+            />
+
+            <meshBasicMaterial
+              color="#4b4035"
+              transparent
+              opacity={0.16}
+            />
+          </mesh>
+        )}
       </group>
     </>
   );
