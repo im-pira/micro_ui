@@ -25,6 +25,7 @@ const experiments = [
   ["22", "NFT Card", "/experiments/NFT-card"],
   ["23", "Switch button", "/experiments/switch-button"],
   ["24", "Journal Flip", "/experiments/journal-flip"],
+  ["25", "Agent slider", "/experiments/agent-slider"],
 ];
 
 export default function Home() {

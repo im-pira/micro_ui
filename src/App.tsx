@@ -24,6 +24,7 @@ import SolanaDashboard from "./experiments/solana-dashboard/SolanaDashboard";
 import NFTCard from "./experiments/NFT-card/NFTCard";
 import SwitchButton from "./experiments/switch-button/SwitchButton";
 import JournalFlip from "./experiments/journal-flip/JournalFlip";
+import AgentSlider from "./experiments/agent-slider/AgentSlider";
 
 function App() {
   return (
@@ -125,6 +126,10 @@ function App() {
         <Route
           path="/experiments/journal-flip"
           element={<JournalFlip />}
+        />
+        <Route
+          path="/experiments/agent-slider"
+          element={<AgentSlider />}
         />
       </Routes>
     </BrowserRouter>
