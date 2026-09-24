@@ -19,3 +19,7 @@ To build simple, polished UI pieces and experiment with how small details can ma
 ---
 
 Made with curiosity by `im-pira`
+
+--- 
+
+Explore the components here: https://design-two-omega.vercel.app/
