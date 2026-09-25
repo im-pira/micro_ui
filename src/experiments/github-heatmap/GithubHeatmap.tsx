@@ -49,14 +49,17 @@ export default function GithubHeatmap() {
                             {tab === "Pira" ? "github.com/im_pira" : "github.com/user"}
                         </p>
 
-                        <div className="mt-4 flex gap-2">
-                            {tabs.map(x => (
+                        <div className="relative mt-4 inline-flex rounded-lg border border-white/[.06] bg-white/[.02] p-0.5">
+                            <div
+                                className={`absolute inset-y-0.5 w-[calc(50%-2px)] rounded-md bg-white/[.08] shadow-sm transition-transform duration-300 ease-out ${tab === "Me" ? "translate-x-full" : "translate-x-0"
+                                    }`}
+                            />
+
+                            {tabs.map((x) => (
                                 <button
                                     key={x}
                                     onClick={() => changeTab(x)}
-                                    className={`rounded-md border px-4 py-1.5 text-[11px] transition ${tab === x
-                                        ? "border-zinc-600 bg-zinc-800/80 text-zinc-200"
-                                        : "border-zinc-900 text-zinc-600 hover:text-zinc-400"
+                                    className={`relative z-10 px-3 py-1 text-[11px] font-medium transition-colors duration-300 ${tab === x ? "text-zinc-200" : "text-zinc-600"
                                         }`}
                                 >
                                     {x}
