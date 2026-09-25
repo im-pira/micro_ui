@@ -25,6 +25,7 @@ import NFTCard from "./experiments/NFT-card/NFTCard";
 import SwitchButton from "./experiments/switch-button/SwitchButton";
 import JournalFlip from "./experiments/journal-flip/JournalFlip";
 import AgentSlider from "./experiments/agent-slider/AgentSlider";
+import GithubHeatmap from "./experiments/github-heatmap/GithubHeatmap";
 
 function App() {
   return (
@@ -130,6 +131,10 @@ function App() {
         <Route
           path="/experiments/agent-slider"
           element={<AgentSlider />}
+        />
+        <Route
+          path="/experiments/github-heatmap"
+          element={<GithubHeatmap />}
         />
       </Routes>
     </BrowserRouter>
