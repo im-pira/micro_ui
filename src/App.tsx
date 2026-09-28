@@ -26,6 +26,7 @@ import SwitchButton from "./experiments/switch-button/SwitchButton";
 import JournalFlip from "./experiments/journal-flip/JournalFlip";
 import AgentSlider from "./experiments/agent-slider/AgentSlider";
 import GithubHeatmap from "./experiments/github-heatmap/GithubHeatmap";
+import Keyboard from "./experiments/keyboard/Keyboard";
 
 function App() {
   return (
@@ -135,6 +136,10 @@ function App() {
         <Route
           path="/experiments/github-heatmap"
           element={<GithubHeatmap />}
+        />
+        <Route
+          path="/experiments/keyboard"
+          element={<Keyboard />}
         />
       </Routes>
     </BrowserRouter>
