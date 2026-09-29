@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, FastForward, Mic, Moon, Play, Rewind, Search, Sun, Volume1, Volume2, VolumeX, } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, FastForward, Mic, Play, Rewind, Search, Sun, Volume1, Volume2, VolumeX, } from "lucide-react"
 import { playKeySound } from "./keyboardSound"
 
 const Key = ({
