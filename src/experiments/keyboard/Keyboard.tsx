@@ -1,29 +1,19 @@
 import type { LucideIcon } from "lucide-react"
-import {
-    ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
-    FastForward, Grid2X2, Mic, Moon, Play, Rewind,
-    Search, Sun, Volume1, Volume2, VolumeX,
-} from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, FastForward, Mic, Moon, Play, Rewind, Search, Sun, Volume1, Volume2, VolumeX, } from "lucide-react"
 
 const Key = ({
-    children,
-    w = "w-[72px]",
-    left = false,
-    rounded = "rounded-[11px]",
-}: {
-    children?: React.ReactNode
-    w?: string
-    left?: boolean
-    rounded?: string
-}) => (
+    children, w = "w-[72px]", left = false, rounded = "rounded-[11px]", }: {
+        children?: React.ReactNode
+        w?: string
+        left?: boolean
+        rounded?: string
+    }) => (
     <div
         className={`${w} ${rounded} h-[72px] shrink-0 border border-zinc-300 bg-[#f7f7f8]
     shadow-[0_3px_5px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.95)]
     flex ${left ? "items-end justify-start p-3" : "items-center justify-center"}
     text-[16px] text-zinc-700`}
-    >
-        {children}
-    </div>
+    >{children}</div>
 )
 
 const Pair = ({ a, b }: { a: React.ReactNode; b: React.ReactNode }) => (
@@ -48,10 +38,30 @@ export default function Keyboard() {
             <div className="w-max scale-[0.85] origin-center space-y-2 rounded-[30px] bg-[#e7e7e7] p-[17px] shadow-[0_10px_18px_#0002]">
 
                 <div className="flex gap-2">
-                    <Key w="w-[120px]" left>esc</Key>
+                    <Key w="w-[120px]" left rounded="rounded-tl-[18px] rounded-tr-[11px] rounded-bl-[11px] rounded-br-[11px]">
+                        esc
+                    </Key>
                     <IconKey icon={Sun} n="F1" />
                     <IconKey icon={Sun} n="F2" />
-                    <IconKey icon={Grid2X2} n="F3" />
+                    <Key>
+                        <div className="flex flex-col items-center gap-2">
+                            <svg
+                                viewBox="0 0 24 20"
+                                className="h-[18px] w-[20px]"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <rect x="3.5" y="2.5" width="17" height="15" rx="2.2" />
+                                <path d="M10 2.5v15" />
+                                <path d="M3.5 9.4h17" />
+                            </svg>
+
+                            <span>F3</span>
+                        </div>
+                    </Key>
                     <IconKey icon={Search} n="F4" />
                     <IconKey icon={Mic} n="F5" />
                     <IconKey icon={Moon} n="F6" />
@@ -61,7 +71,7 @@ export default function Keyboard() {
                     <IconKey icon={VolumeX} n="F10" />
                     <IconKey icon={Volume1} n="F11" />
                     <IconKey icon={Volume2} n="F12" />
-                    <Key rounded="rounded-l-[11px] rounded-r-[17px]">
+                    <Key rounded="rounded-tl-[11px] rounded-tr-[18px] rounded-bl-[11px] rounded-br-[11px]">
                         <div className="size-11 rounded-full border-[3px] border-zinc-300" />
                     </Key>
                 </div>
@@ -111,7 +121,7 @@ export default function Keyboard() {
                 </div>
 
                 <div className="flex gap-2">
-                    <Key>
+                    <Key rounded="rounded-tl-[11px] rounded-tr-[11px] rounded-bl-[18px] rounded-br-[11px]">
                         <div className="relative h-full w-full">
                             <span className="absolute left-[11px] top-[10px] text-[15px] leading-none">
                                 fn
@@ -155,7 +165,7 @@ export default function Keyboard() {
                         </div>
                     </div>
 
-                    <Key rounded="rounded-l-[11px] rounded-r-[17px]">
+                    <Key rounded="rounded-tl-[11px] rounded-tr-[11px] rounded-bl-[11px] rounded-br-[18px]">
                         <ChevronRight size={18} strokeWidth={2.2} />
                     </Key>
                 </div>
