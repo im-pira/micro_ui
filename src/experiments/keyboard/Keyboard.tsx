@@ -1,19 +1,30 @@
 import type { LucideIcon } from "lucide-react"
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, FastForward, Mic, Moon, Play, Rewind, Search, Sun, Volume1, Volume2, VolumeX, } from "lucide-react"
+import { playKeySound } from "./keyboardSound"
 
 const Key = ({
-    children, w = "w-[72px]", left = false, rounded = "rounded-[11px]", }: {
-        children?: React.ReactNode
-        w?: string
-        left?: boolean
-        rounded?: string
-    }) => (
-    <div
+    children,
+    w = "w-[72px]",
+    left = false,
+    rounded = "rounded-[11px]",
+}: {
+    children?: React.ReactNode
+    w?: string
+    left?: boolean
+    rounded?: string
+}) => (
+    <button
+        type="button"
+        onPointerDown={playKeySound}
         className={`${w} ${rounded} h-[72px] shrink-0 border border-zinc-300 bg-[#f7f7f8]
-    shadow-[0_3px_5px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.95)]
+    shadow-[0_3px_5px_rgba(0,0,0,0.24),0_1px_1px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.95)]
     flex ${left ? "items-end justify-start p-3" : "items-center justify-center"}
-    text-[16px] text-zinc-700`}
-    >{children}</div>
+    text-[16px] text-zinc-700 transition-[transform,box-shadow] duration-75
+    active:translate-y-[2px]
+    active:shadow-[0_1px_2px_rgba(0,0,0,0.22),inset_0_1px_2px_rgba(0,0,0,0.08)]`}
+    >
+        {children}
+    </button>
 )
 
 const Pair = ({ a, b }: { a: React.ReactNode; b: React.ReactNode }) => (
@@ -189,13 +200,29 @@ export default function Keyboard() {
                     </Key>
 
                     <div className="flex w-[72px] flex-col gap-1">
-                        <div className="grid h-[34px] place-items-center rounded-[9px] border border-zinc-300 bg-[#f7f7f8] shadow-[0_3px_5px_rgba(0,0,0,0.22)]">
+                        <button
+                            type="button"
+                            onPointerDown={playKeySound}
+                            className="grid h-[34px] place-items-center rounded-[9px] border border-zinc-300 bg-[#f7f7f8]
+    shadow-[0_3px_5px_rgba(0,0,0,0.22),0_1px_1px_rgba(0,0,0,0.12)]
+    transition-[transform,box-shadow] duration-75
+    active:translate-y-[2px]
+    active:shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
+                        >
                             <ChevronUp size={17} strokeWidth={2.2} />
-                        </div>
+                        </button>
 
-                        <div className="grid h-[34px] place-items-center rounded-[9px] border border-zinc-300 bg-[#f7f7f8] shadow-[0_3px_5px_rgba(0,0,0,0.22)]">
+                        <button
+                            type="button"
+                            onPointerDown={playKeySound}
+                            className="grid h-[34px] place-items-center rounded-[9px] border border-zinc-300 bg-[#f7f7f8]
+    shadow-[0_3px_5px_rgba(0,0,0,0.22),0_1px_1px_rgba(0,0,0,0.12)]
+    transition-[transform,box-shadow] duration-75
+    active:translate-y-[2px]
+    active:shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
+                        >
                             <ChevronDown size={17} strokeWidth={2.2} />
-                        </div>
+                        </button>
                     </div>
 
                     <Key rounded="rounded-tl-[11px] rounded-tr-[11px] rounded-bl-[11px] rounded-br-[22px]">
