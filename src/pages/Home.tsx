@@ -28,6 +28,7 @@ const experiments = [
   ["25", "Agent slider", "/experiments/agent-slider"],
   ["26", "Github Heatmap", "/experiments/github-heatmap"],
   ["27", "Keyboard", "/experiments/keyboard"],
+  ["28", "Retro Recorder", "/experiments/retro-recorder"],
 ];
 
 export default function Home() {

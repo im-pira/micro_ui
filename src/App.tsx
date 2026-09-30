@@ -27,6 +27,7 @@ import JournalFlip from "./experiments/journal-flip/JournalFlip";
 import AgentSlider from "./experiments/agent-slider/AgentSlider";
 import GithubHeatmap from "./experiments/github-heatmap/GithubHeatmap";
 import Keyboard from "./experiments/keyboard/Keyboard";
+import RetroRecorder from "./experiments/retro-recorder/RetroRecorder";
 
 function App() {
   return (
@@ -140,6 +141,10 @@ function App() {
         <Route
           path="/experiments/keyboard"
           element={<Keyboard />}
+        />
+        <Route
+          path="/experiments/retro-recorder"
+          element={<RetroRecorder />}
         />
       </Routes>
     </BrowserRouter>
