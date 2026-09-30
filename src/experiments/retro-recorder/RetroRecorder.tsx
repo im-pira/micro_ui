@@ -3,7 +3,7 @@ import { BatteryMedium, Wifi } from "lucide-react";
 export default function RetroRecorder() {
     return (
         <main className="grid min-h-screen place-items-center bg-[#ededed] p-6">
-            <div className="w-[430px] rounded-[28px] border-[10px] border-white bg-[#e9e9e9] p-2 shadow-[0_28px_50px_rgba(0,0,0,.22)]">
+            <div className="w-[430px] scale-[0.78] rounded-[28px] border-[10px] border-white bg-[#e9e9e9] p-2 shadow-[0_28px_50px_rgba(0,0,0,.22)]">
                 <section className="rounded-[18px] border-2 border-black bg-[#111] p-4 text-white shadow-inner">
                     <div className="flex items-center justify-between text-[11px] text-white/60">
                         <span>04.35 PM</span>
@@ -43,26 +43,111 @@ export default function RetroRecorder() {
                     <div className="h-7 flex-1 opacity-70 [background-image:radial-gradient(#111_1px,transparent_1px)] [background-size:6px_6px]" />
                 </div>
 
-                <section className="grid h-[145px] grid-cols-3 overflow-hidden rounded-[17px] border-2 border-black">
-                    <button className="grid place-items-center border-r-2 border-black text-3xl">
-                        <span className="grid h-14 w-14 place-items-center rounded-full bg-white/40 shadow-inner text-red-400">●</span>
-                    </button>
+                <section className="grid h-[145px] grid-cols-3 gap-[14px] bg-transparent p-0">
+    {/* RECORD */}
+    <button
+        className="grid place-items-center rounded-[16px] border border-black/15 bg-[#dcdcdc]"
+        style={{
+            boxShadow: `
+                4px 4px 7px rgba(0,0,0,0.14),
+                -4px -4px 7px rgba(255,255,255,0.88),
+                inset 0 0 0 1px rgba(255,255,255,0.35)
+            `,
+        }}
+    >
+        <span
+            className="grid h-[62px] w-[62px] place-items-center rounded-full bg-[#dcdcdc]"
+            style={{
+                boxShadow: `
+                    inset 7px 7px 12px rgba(0,0,0,0.13),
+                    inset -7px -7px 12px rgba(255,255,255,0.85)
+                `,
+            }}
+        >
+            <span className="h-[21px] w-[21px] rounded-full bg-[#cb706d]" />
+        </span>
+    </button>
 
-                    <button className="grid place-items-center border-r-2 border-black text-2xl">
-                        <span className="grid h-14 w-14 place-items-center rounded-full bg-white/40 shadow-inner text-neutral-500">■</span>
-                    </button>
+    {/* STOP */}
+    <button
+        className="grid place-items-center rounded-[16px] border border-black/15 bg-[#dcdcdc]"
+        style={{
+            boxShadow: `
+                4px 4px 7px rgba(0,0,0,0.14),
+                -4px -4px 7px rgba(255,255,255,0.88),
+                inset 0 0 0 1px rgba(255,255,255,0.35)
+            `,
+        }}
+    >
+        <span
+            className="grid h-[62px] w-[62px] place-items-center rounded-full bg-[#dcdcdc]"
+            style={{
+                boxShadow: `
+                    inset 7px 7px 12px rgba(0,0,0,0.13),
+                    inset -7px -7px 12px rgba(255,255,255,0.85)
+                `,
+            }}
+        >
+            <span className="h-[18px] w-[18px] rounded-[2px] bg-[#868686]" />
+        </span>
+    </button>
 
-                    <div className="grid grid-rows-2">
-                        <button className="grid place-items-center border-b-2 border-black">
-                            <span className="grid h-12 w-12 place-items-center rounded-full bg-white/40 shadow-inner">
-                                <Wifi className="size-5 text-neutral-500" />
-                            </span>
-                        </button>
-                        <button className="grid place-items-center">
-                            <span className="grid h-12 w-12 place-items-center rounded-full bg-white/40 shadow-inner">↻</span>
-                        </button>
-                    </div>
-                </section>
+    {/* RIGHT COLUMN */}
+    <div className="grid grid-rows-2 gap-[14px]">
+        {/* WIFI */}
+        <button
+            className="grid place-items-center rounded-[14px] border border-black/15 bg-[#dcdcdc]"
+            style={{
+                boxShadow: `
+                    4px 4px 7px rgba(0,0,0,0.14),
+                    -4px -4px 7px rgba(255,255,255,0.88),
+                    inset 0 0 0 1px rgba(255,255,255,0.35)
+                `,
+            }}
+        >
+            <span
+                className="grid h-[50px] w-[50px] place-items-center rounded-full bg-[#dcdcdc]"
+                style={{
+                    boxShadow: `
+                        inset 6px 6px 10px rgba(0,0,0,0.12),
+                        inset -6px -6px 10px rgba(255,255,255,0.85)
+                    `,
+                }}
+            >
+                <Wifi
+                    className="h-[19px] w-[19px] text-[#777]"
+                    strokeWidth={1.8}
+                />
+            </span>
+        </button>
+
+        {/* REFRESH */}
+        <button
+            className="grid place-items-center rounded-[14px] border border-black/15 bg-[#dcdcdc]"
+            style={{
+                boxShadow: `
+                    4px 4px 7px rgba(0,0,0,0.14),
+                    -4px -4px 7px rgba(255,255,255,0.88),
+                    inset 0 0 0 1px rgba(255,255,255,0.35)
+                `,
+            }}
+        >
+            <span
+                className="grid h-[50px] w-[50px] place-items-center rounded-full bg-[#dcdcdc]"
+                style={{
+                    boxShadow: `
+                        inset 6px 6px 10px rgba(0,0,0,0.12),
+                        inset -6px -6px 10px rgba(255,255,255,0.85)
+                    `,
+                }}
+            >
+                <span className="text-[24px] leading-none text-[#666]">
+                    ↻
+                </span>
+            </span>
+        </button>
+    </div>
+</section>
             </div>
         </main>
     );
