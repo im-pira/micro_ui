@@ -28,6 +28,7 @@ import AgentSlider from "./experiments/agent-slider/AgentSlider";
 import GithubHeatmap from "./experiments/github-heatmap/GithubHeatmap";
 import Keyboard from "./experiments/keyboard/Keyboard";
 import RetroRecorder from "./experiments/retro-recorder/RetroRecorder";
+import ComparisonSlider from "./experiments/comparison-slider/ComparisonSlider";
 
 function App() {
   return (
@@ -145,6 +146,10 @@ function App() {
         <Route
           path="/experiments/retro-recorder"
           element={<RetroRecorder />}
+        />
+        <Route
+          path="/experiments/comparison-slider"
+          element={<ComparisonSlider />}
         />
       </Routes>
     </BrowserRouter>
