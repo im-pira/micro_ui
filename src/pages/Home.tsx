@@ -30,6 +30,7 @@ const experiments = [
   ["27", "Keyboard", "/experiments/keyboard"],
   ["28", "Retro Recorder", "/experiments/retro-recorder"],
   ["29", "Comparison Slider", "/experiments/comparison-slider"],
+  ["30", "Pixel Button", "/experiments/pixel-button"],
 ];
 
 export default function Home() {

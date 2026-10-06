@@ -29,6 +29,7 @@ import GithubHeatmap from "./experiments/github-heatmap/GithubHeatmap";
 import Keyboard from "./experiments/keyboard/Keyboard";
 import RetroRecorder from "./experiments/retro-recorder/RetroRecorder";
 import ComparisonSlider from "./experiments/comparison-slider/ComparisonSlider";
+import PixelButton from "./experiments/pixel-button/pixelButton";
 
 function App() {
   return (
@@ -150,6 +151,10 @@ function App() {
         <Route
           path="/experiments/comparison-slider"
           element={<ComparisonSlider />}
+        />
+        <Route
+          path="/experiments/pixel-button"
+          element={<PixelButton />}
         />
       </Routes>
     </BrowserRouter>
