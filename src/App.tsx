@@ -30,6 +30,7 @@ import Keyboard from "./experiments/keyboard/Keyboard";
 import RetroRecorder from "./experiments/retro-recorder/RetroRecorder";
 import ComparisonSlider from "./experiments/comparison-slider/ComparisonSlider";
 import PixelButton from "./experiments/pixel-button/pixelButton";
+import KoiPond from "./experiments/koi-pond/KoiPond";
 
 function App() {
   return (
@@ -155,6 +156,10 @@ function App() {
         <Route
           path="/experiments/pixel-button"
           element={<PixelButton />}
+        />
+        <Route
+          path="/experiments/koi-pond"
+          element={<KoiPond />}
         />
       </Routes>
     </BrowserRouter>

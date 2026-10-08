@@ -31,6 +31,7 @@ const experiments = [
   ["28", "Retro Recorder", "/experiments/retro-recorder"],
   ["29", "Comparison Slider", "/experiments/comparison-slider"],
   ["30", "Pixel Button", "/experiments/pixel-button"],
+  ["31", "Koi Pond", "/experiments/koi-pond"],
 ];
 
 export default function Home() {
