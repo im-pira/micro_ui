@@ -1,7 +1,9 @@
 import KoiPond from "./KoiPond";
 
-export default function Page() {
+export default function KoiPondPage() {
     return (
-        <KoiPond />
-    )
+        <main className="h-screen w-full overflow-hidden">
+            <KoiPond />
+        </main>
+    );
 }
