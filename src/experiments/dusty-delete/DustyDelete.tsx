@@ -21,7 +21,7 @@ export default function DustyDelete() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white p-6">
       <Phone>
-        <div className="flex h-full flex-col justify-end gap-5 px-3 pb-5">
+        <div className="absolute inset-0 flex flex-col justify-end gap-1 px-3 pb-1">
           {messages.map((message) => (
             <Message
               key={message.id}
