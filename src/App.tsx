@@ -31,6 +31,7 @@ import RetroRecorder from "./experiments/retro-recorder/RetroRecorder";
 import ComparisonSlider from "./experiments/comparison-slider/ComparisonSlider";
 import PixelButton from "./experiments/pixel-button/pixelButton";
 import KoiPond from "./experiments/koi-pond/KoiPond";
+import DustyDelete from "./experiments/dusty-delete/DustyDelete";
 
 function App() {
   return (
@@ -160,6 +161,10 @@ function App() {
         <Route
           path="/experiments/koi-pond"
           element={<KoiPond />}
+        />
+        <Route
+          path="/experiments/dusty-delete"
+          element={<DustyDelete />}
         />
       </Routes>
     </BrowserRouter>
