@@ -100,7 +100,7 @@ export function usePond() {
     canvas.addEventListener("pointercancel", onLeave);
 
     Promise.all([
-      load("/koi-pond/background/pond.webp"),
+      load("/koi-pond/background/pond.png"),
       ...FISH_ASSETS.map((asset) => load(asset.src)),
     ]).then(([background, ...images]) => {
       if (disposed) return;

@@ -1,10 +1,10 @@
 import type { Fish } from "../engine/types";
 
 export const FISH_ASSETS = [
-  { src: "/koi-pond/fish/koi-1.png", rotation: 0 },
-  { src: "/koi-pond/fish/koi-2.png", rotation: 90 },
-  { src: "/koi-pond/fish/koi-3.png", rotation: 180 },
-  { src: "/koi-pond/fish/koi-4.png", rotation: -90 },
+  { src: "/koi-pond/fish/1.png", rotation: 0 },
+  { src: "/koi-pond/fish/2.png", rotation: 90 },
+  { src: "/koi-pond/fish/3.png", rotation: 180 },
+  { src: "/koi-pond/fish/4.png", rotation: -90 },
 ];
 
 export function prepareFish(
